@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment       
+metadata:
+  name: flight-registration-service
+  labels:
+    app: flight-registration-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flight-registration-service
+  template:
+    metadata:
+      labels:
+        app: flight-registration-service
+    spec:
+      containers:
+      - name: flight-registration-service
+        image: amikchak/gokoders:flight-registration-service-0.6
+        ports:
+        - containerPort: 7104
+        #command: ["/bin/sh", "-ec", "sleep 1000"]
+        env:
+        - name: MONGO_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: flight-registration-service
+              key: database-name
+        imagePullSecrets:
+        - name: flightcred

@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: flight-search-service
+  labels:
+    app: flight-search-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flight-search-service
+  template:
+    metadata:
+      labels:
+        app: flight-search-service
+    spec:
+      containers:
+      - name: flight-search-service
+        image: amikchak/gokoders:flight-search-service-0.6
+        ports:
+        - containerPort: 7105
+        #command: ["/bin/sh", "-ec", "sleep 1000"]
+        env:
+        - name: MONGO_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: flight-search-service
+              key: database-name
+        imagePullSecrets:
+        - name: flightcred

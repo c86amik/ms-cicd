@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flight-registration-service
+data:
+  database-name: gokodersflight

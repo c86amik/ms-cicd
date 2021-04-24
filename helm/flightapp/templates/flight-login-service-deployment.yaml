@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: flight-login-service
+  labels:
+    app: flight-login-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flight-login-service
+  template:
+    metadata:
+      labels:
+        app: flight-login-service
+    spec:
+      containers:
+      - name: flight-login-service
+        image: amikchak/gokoders:flight-login-service-0.6
+        ports:
+        - containerPort: 7103
+        #command: ["/bin/sh", "-ec", "sleep 1000"]
+        env:
+        - name: MONGO_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: flight-login-service
+              key: database-name
+        imagePullSecrets:
+        - name: flightcred

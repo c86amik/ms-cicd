@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: flight-proxy-service
+  labels:
+    app: flight-proxy-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flight-proxy-service
+  template:
+    metadata:
+      labels:
+        app: flight-proxy-service
+    spec:
+      containers:
+      - name: flight-proxy-service
+        image: amikchak/gokoders:flight-proxy-service-0.6
+        ports:
+        - containerPort: 7102
+        imagePullSecrets:
+        - name: flightcred

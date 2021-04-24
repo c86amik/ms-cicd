@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service    
+metadata:
+  name: flight-proxy-service
+  labels:
+    app: flight-proxy-service
+spec:
+  ports:
+  - nodePort: 30702
+    port: 7102
+    targetPort: 7102
+    protocol: TCP
+  selector:
+    app: flight-proxy-service
+  type: LoadBalancer

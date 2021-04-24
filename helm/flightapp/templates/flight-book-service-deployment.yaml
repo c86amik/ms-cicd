@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: flight-book-service
+  labels:
+    app: flight-book-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flight-book-service
+  template:
+    metadata:
+      labels:
+        app: flight-book-service
+    spec:
+      containers:
+      - name: flight-book-service
+        image: amikchak/gokoders:flight-book-service-0.6
+        ports:
+        - containerPort: 7106
+        #command: ["/bin/sh", "-ec", "sleep 1000"]
+        env:
+        - name: MONGO_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: flight-book-service
+              key: database-name
+        imagePullSecrets:
+        - name: flightcred
